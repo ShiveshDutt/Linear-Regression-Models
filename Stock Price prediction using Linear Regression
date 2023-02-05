@@ -1,0 +1,25 @@
+import numpy as np
+import pandas as pd
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+# Load the stock price data into a pandas DataFrame
+df = pd.read_csv("stock_data.csv")
+
+# Split the data into features (X) and the target variable (y)
+X = df.iloc[:, :-1].values
+y = df.iloc[:, -1].values
+
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+
+# Train a Linear Regression model on the training data
+regressor = LinearRegression()
+regressor.fit(X_train, y_train)
+
+# Use the trained model to make predictions on the test data
+y_pred = regressor.predict(X_test)
+
+# Evaluate the performance of the model using mean squared error
+mse = np.mean((y_test - y_pred)**2)
+print("Mean Squared Error:", mse)
